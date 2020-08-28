@@ -24,7 +24,6 @@ public class EmployeeController {
     this.repository = repository;
   }
 
-  // Aggregate root
 
   @GetMapping("/employees")
   List<Employee> all() {
@@ -35,8 +34,6 @@ public class EmployeeController {
   Employee newEmployee(@RequestBody Employee newEmployee) {
     return repository.save(newEmployee);
   }
-
-  // Single item
 
   @GetMapping("/employees/{id}")
   Employee one(@PathVariable Long id) {

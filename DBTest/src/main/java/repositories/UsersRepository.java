@@ -7,5 +7,5 @@ import usersDTO.Users;
 
 @Repository
 public interface UsersRepository extends JpaRepository<Users, Long>{
-	public Users findByName(String userName);
+	public Users findByuserEmail(String userEmail);
 }

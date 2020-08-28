@@ -28,7 +28,6 @@ public class Users {
 	String userPassword;
 	String userRegisterDate;
 	public Users(long userNumber, String userName, String userEmail, String userPassword, String userRegisterDate) {
-		super();
 		this.userNumber = userNumber;
 		this.userName = userName;
 		this.userEmail = userEmail;

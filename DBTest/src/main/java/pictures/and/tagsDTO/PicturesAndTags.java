@@ -37,7 +37,6 @@ public class PicturesAndTags {
 	Tags tagId;
 
 	public PicturesAndTags(long pictureandtagNumber, Pictures pictureId, Tags tagId) {
-		super();
 		this.pictureandtagNumber = pictureandtagNumber;
 		this.pictureId = pictureId;
 		this.tagId = tagId;

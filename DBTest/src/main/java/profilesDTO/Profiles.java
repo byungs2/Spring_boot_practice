@@ -27,7 +27,6 @@ public class Profiles {
 	@SequenceGenerator(name = "Profiles_seq", sequenceName = "Profiles_seq", allocationSize = 1)
 	long profileNumber;
 	
-	String selfPicture;
 	String introduction;
 	String snsLink1;
 	String snsLink2;
@@ -37,11 +36,10 @@ public class Profiles {
 	@JoinColumn(name = "USERS_ID")
 	Users userId;
 
-	public Profiles(long profileNumber, String selfPicture, String introduction, String snsLink1, String snsLink2,
+	public Profiles(long profileNumber, String introduction, String snsLink1, String snsLink2,
 			String snsLink3, Users userId) {
 		super();
 		this.profileNumber = profileNumber;
-		this.selfPicture = selfPicture;
 		this.introduction = introduction;
 		this.snsLink1 = snsLink1;
 		this.snsLink2 = snsLink2;

@@ -7,6 +7,6 @@ import usersDTO.Users;
 
 @Repository
 public interface UsersRepository extends JpaRepository<Users, Long>{
-	public Users findByuserEmail(String userEmail);
-	public Users findByuserEmailAnduserPassword(String userEmail, String userPassword);
+	public Users findByUserEmail(String userEmail);
+	public Users findByUserEmailAndUserPassword(String userEmail, String userPassword);
 }

@@ -27,16 +27,14 @@ public class Pictures {
 	@SequenceGenerator(name = "Pictures_seq", sequenceName = "Pictures_seq", allocationSize = 1)
 	long pictureNumber;
 	
-	String picture;
 	String uploadDate;
 	
 	@ManyToOne
 	@JoinColumn(name = "USERS_ID")
 	Users userId;
 
-	public Pictures(long pictureNumber, String picture, String uploadDate, Users userId) {
+	public Pictures(long pictureNumber, String uploadDate, Users userId) {
 		this.pictureNumber = pictureNumber;
-		this.picture = picture;
 		this.uploadDate = uploadDate;
 		this.userId = userId;
 	}

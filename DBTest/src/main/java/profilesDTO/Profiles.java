@@ -32,6 +32,7 @@ public class Profiles {
 	String snsLink2;
 	String snsLink3;
 	
+	//일대일 관계 외래키를 가진 곳이 주인, 이를 User Entity에 설정할지 Profile Entity에 설정할지 결정해야한다
 	@OneToOne
 	@JoinColumn(name = "USERS_ID")
 	Users userId;

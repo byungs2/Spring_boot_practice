@@ -1,8 +1,8 @@
 package controller;
 
+import java.util.Date;
 import java.util.List;
 
-import org.apache.catalina.User;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,10 +37,12 @@ public class UsersController {
 	@PostMapping("/users")
 	public String newUser(@RequestBody Users newUser) {
 		// 회원가입 시 동일 이메일을 가진 정보가 있는지 확인
+		Date userRegisterDate = new Date();
 		Users user = repository.findByUserEmail(newUser.getUserEmail());
-		if (!(user == null)) {
+		if (user != null) {
 			return "redirect:/something1.jsp";
 		} else {
+			newUser.setUserRegisterDate(userRegisterDate);
 			repository.save(newUser);
 			return "redirect:/something.jsp";
 		}
@@ -92,10 +94,11 @@ public class UsersController {
 		if(user != null) {
 			user.setUserEmail(userEmail);
 			user.setUserPassword(userPassword);
+			repository.save(user);
+			return "redirect:/somewhere.jsp";
 		}else {
 			return "redirect:/somewhere.jsp";
 		}
-		return "redirect:/somewhere.jsp";
 	}
 
 }

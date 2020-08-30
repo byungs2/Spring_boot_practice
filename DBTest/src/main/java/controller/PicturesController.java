@@ -2,29 +2,43 @@ package controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import picturesDTO.Pictures;
 import repositories.PicturesRepository;
+import repositories.UsersRepository;
 
 @RestController
 public class PicturesController {
 	  private final PicturesRepository repository;
+	  private final UsersRepository userRepository;
 	  
-	  PicturesController(PicturesRepository repository) {
+	  PicturesController(PicturesRepository repository, UsersRepository userRepository) {
 	    this.repository = repository;
+	    this.userRepository = userRepository;
 	  }
+	  //모든 picture 검색
+	  @GetMapping("/pictures")
+	  public List<Pictures> getAll() {
+		  return repository.findAll();
+	  }
+	  
 	  //Picture 객체 저장
 	  @PostMapping("/pictures")
-	  public String uploadPicture(@RequestParam("img") MultipartFile img, @RequestBody Pictures newPicture) {
+	  public String uploadPicture(@RequestParam("img") MultipartFile img, @ModelAttribute("userNumber") long userNumber) {
+		  Date uploadDate = new Date();
 		  try {
+			Pictures newPicture = Pictures.builder().uploadDate(uploadDate).userId(userRepository.findById(userNumber).orElseThrow(()-> null)).build();
 			img.transferTo(new File("C:/somewhere/"+newPicture.getPictureNumber()));
 			repository.save(newPicture);
 		} catch (IllegalStateException | IOException e) {

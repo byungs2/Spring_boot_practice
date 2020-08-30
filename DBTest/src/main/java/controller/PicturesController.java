@@ -34,6 +34,7 @@ public class PicturesController {
 	  }
 	  
 	  //Picture 객체 저장
+	  //실제로 사용되는 url이 아닌 단순 테스트용으로 실제 사용은 PicturesAndTagsController에서 담당
 	  @PostMapping("/pictures")
 	  public String uploadPicture(@RequestParam("img") MultipartFile img, @ModelAttribute("userNumber") long userNumber) {
 		  Date uploadDate = new Date();
@@ -44,7 +45,7 @@ public class PicturesController {
 		} catch (IllegalStateException | IOException e) {
 			e.printStackTrace();
 		}
-		  return "redirect:/something.jsp";
+		  return "forward:/something.jsp";
 	  }
 	  
 	  //Picture 삭제 (본인이 올린 사진만)
@@ -57,4 +58,5 @@ public class PicturesController {
 		  return "redirect:/something.jsp";
 	  }
 	  
+	  //Picture 수정
 }

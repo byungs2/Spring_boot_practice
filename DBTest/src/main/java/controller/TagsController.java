@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +27,8 @@ public class TagsController {
 	  //tagName이 새로운 것일 때 추가하는 기능
 	  //이때 RegisterDate는 항상 갱신된다 
 	  //저장 및 갱신시 null값 저장  문제 발생//배열 맨앞을 참조하지 않는 것으로 임시 조치 해놓았음
-	  @PutMapping("/tags")
+	  //실제로 사용되는 url이 아닌 단순 테스트용으로 실제 사용은 PicturesAndTagsController에서 담당
+	  @PostMapping("/tags")
 	  public void newTag(@RequestParam("tagName") String tagName) {
 		  Date registerDate = new Date();
 		  String tagNameList []  = tagName.replaceAll("\\p{Z}", "").split("#");

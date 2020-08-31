@@ -1,8 +1,15 @@
 package controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,13 +23,17 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import repositories.UsersRepository;
+import service.JwtService;
 import usersDTO.Users;
 
 @RestController
 @SessionAttributes({ "userNumber" })
 public class UsersController {
 	private final UsersRepository repository;
-
+	
+	@Autowired
+	private JwtService jwtService;
+	
 	UsersController(UsersRepository repository) {
 		this.repository = repository;
 	}
@@ -59,19 +70,29 @@ public class UsersController {
 
 	// 로그인
 	@GetMapping("/users/login")
-	public String userLogIn(Model model, @RequestParam("userEmail") String userEmail,
+	public ResponseEntity<Map<String, Object>> userLogIn(HttpServletResponse res, @RequestParam("userEmail") String userEmail,
 			@RequestParam("userPassword") String userPassword) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
 		// 입력받은 userEmail과 userPassword로 회원정보 검색
 		Users user = repository.findByUserEmailAndUserPassword(userEmail, userPassword);
 		if (user != null) {
+			//token 생성
+			String token = jwtService.create(user);
+			
+			res.setHeader("jwt-auth-token", token);
+			resultMap.put("auth_token", token);
+			resultMap.put("status", true);
+			resultMap.put("data", user);
+			
+			status = HttpStatus.ACCEPTED;
 			// session 저장
-			model.addAttribute("userNumber", user.getUserNumber());
-			return "redirect:/index.html";
+			//model.addAttribute("userNumber", user.getUserNumber());
 		} else {
 			// error advice or Exception 객체 생성하여 해당 error advice 객체에서 endview로 redirect or
 			// forward로 이동하는 방법이 좋아보인다.
-			return "redirect:/error.jsp";
 		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
 	// 로그아웃

@@ -3,6 +3,8 @@ package controller;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -42,6 +44,13 @@ public class TagsController {
 				  repository.save(tag);
 			  }
 		  }
+	  }
+	  
+	  
+	  //Containing function testing method
+	  @GetMapping("/tagstest")
+	  public List<Tags> tags(@RequestParam("tagName") String tagName){
+		  return repository.findByTagNameContaining(tagName);
 	  }
 	  
 	  

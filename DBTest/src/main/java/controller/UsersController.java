@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +28,7 @@ import service.JwtService;
 import usersDTO.Users;
 
 @RestController
-@SessionAttributes({ "userNumber" })
+//@CrossOrigin("http://localhost:8081")
 public class UsersController {
 	private final UsersRepository repository;
 	
@@ -45,8 +46,10 @@ public class UsersController {
 	}
 
 	// 회원 가입
+	
 	@PostMapping("/users")
 	public String newUser(@RequestBody Users newUser) {
+		System.out.println("SignIn");
 		// 회원가입 시 동일 이메일을 가진 정보가 있는지 확인
 		Date userRegisterDate = new Date();
 		Users user = repository.findByUserEmail(newUser.getUserEmail());
@@ -70,10 +73,10 @@ public class UsersController {
 
 	// 로그인
 	@GetMapping("/users/login")
-	public ResponseEntity<Map<String, Object>> userLogIn(HttpServletResponse res, @RequestParam("userEmail") String userEmail,
+	public Map<String, Object> userLogIn(HttpServletResponse res, @RequestParam("userEmail") String userEmail,
 			@RequestParam("userPassword") String userPassword) {
 		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status = null;
+		System.out.println("LogIn");
 		// 입력받은 userEmail과 userPassword로 회원정보 검색
 		Users user = repository.findByUserEmailAndUserPassword(userEmail, userPassword);
 		if (user != null) {
@@ -85,14 +88,13 @@ public class UsersController {
 			resultMap.put("status", true);
 			resultMap.put("data", user);
 			
-			status = HttpStatus.ACCEPTED;
 			// session 저장
 			//model.addAttribute("userNumber", user.getUserNumber());
 		} else {
 			// error advice or Exception 객체 생성하여 해당 error advice 객체에서 endview로 redirect or
 			// forward로 이동하는 방법이 좋아보인다.
 		}
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+		return resultMap;
 	}
 
 	// 로그아웃

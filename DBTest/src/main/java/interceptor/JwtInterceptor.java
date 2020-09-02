@@ -28,14 +28,17 @@ public class JwtInterceptor implements HandlerInterceptor {
 		System.out.println("요청 url " + req.getMethod() + " : " + req.getServletPath());
 		// request의 parameter에서 auth_token으로 넘어온 녀석을 검색
 		System.out.println("---- " + req.getHeader("jwt-auth-token"));
+		System.out.println("---- " + req.getMethod());
+  
+		String token = req.getHeader("jwt-auth-token"); 
 
-		String token = req.getHeader("jwt-auth-token");
-
+		if (req.getMethod().equals("OPTIONS")) {
+				return true;
+		}
 		if (token != null && token.length() > 0) {
 			// 유효한 토큰이면 진행, 아니면 예외 발생
 			log.info("토큰 사용 가능 : {} ", token);
 			jwtService.checkValid(token);
-
 			return true; // 컨트롤러 요청
 		} else {
 			System.out.println("인증 토큰이 없을때----");

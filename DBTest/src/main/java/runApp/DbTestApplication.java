@@ -39,9 +39,7 @@ public class DbTestApplication implements WebMvcConfigurer{
 		System.out.println("addCorsMappings() --");
 		registry.addMapping("/**")
 		.allowedOrigins("*")
-		.allowedMethods("*")
-		.allowedHeaders("*")
-		.allowedHeaders("jwt-auth-token");
+		.exposedHeaders("jwt-auth-token");
 	}
 	public static void main(String[] args) {
 		SpringApplication.run(DbTestApplication.class, args);

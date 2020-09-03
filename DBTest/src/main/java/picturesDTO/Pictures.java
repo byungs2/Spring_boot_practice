@@ -13,6 +13,10 @@ import javax.persistence.SequenceGenerator;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import favorite.picturesDTO.FavoritePictures;
 import lombok.Builder;
 import lombok.Getter;
@@ -41,10 +45,12 @@ public class Pictures {
 	
 	//PicturesAndTags Entity와 양방향관계 Mapping
 	@OneToMany(mappedBy = "pictureId")
+	@JsonIgnore
 	List<PicturesAndTags> picturesAndTags;
 	
 	//FavoritePictures Entity와 양방향관계 Mapping
 	@OneToMany(mappedBy = "pictureId")
+	@JsonIgnore
 	List<FavoritePictures> favoritePictures;
 	
 	public Pictures(long pictureNumber, Date uploadDate, Users userId, List<PicturesAndTags> picturesAndTags, List<FavoritePictures> favoritePictures) {

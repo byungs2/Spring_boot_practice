@@ -28,7 +28,7 @@ public class DbTestApplication implements WebMvcConfigurer{
 		System.out.println("addInterceptors() --");
 		//기본 적용 경로로, 적용 제외 경로
 		//Storage에 index.html 없이 저장하는법?
-		registry.addInterceptor(jwtInterceptor).addPathPatterns("/tags").excludePathPatterns(Arrays.asList(""));
+		registry.addInterceptor(jwtInterceptor).addPathPatterns("").excludePathPatterns(Arrays.asList(""));
 		
 	}
 	

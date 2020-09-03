@@ -2,10 +2,12 @@ package controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,8 +39,8 @@ public class PicturesAndTagsController {
 	  //Tags, Pictures Mapping
 	  //Picture와 Tag가 생성되는 시점에 Picture와 tag 사이의 관계가 함께 매칭되도록 하려면?
 	  //현재는 Tags,Pictures,PicturesAndTags,Users Repository 모두 한 controller에서 사용하는 방법으로 해결해 놓았다 다른 방법이 있을까?
-	  @PostMapping("/pictures-and-tags")
-	  public void newPicturesAndTags(@RequestParam("tagName") String tagName, @RequestParam("img") MultipartFile img, @ModelAttribute("userNumber") long userNumber) {
+	  @PostMapping("/pictures-and-tags/{userNumber}")
+	  public void newPicturesAndTags(@RequestParam("tagName") String tagName, @RequestParam("img") MultipartFile img, @PathVariable long userNumber) {
 		  Pictures pictureId = null;
 		  Date registerDate = new Date();
 		  String tagNameList []  = tagName.replaceAll("\\p{Z}", "").split("#");
@@ -67,16 +69,25 @@ public class PicturesAndTagsController {
 			  //Pictures Entity와 Tags Entity 관계 매칭
 			  repository.save(PicturesAndTags.builder().pictureId(pictureId).tagId(tag).build());
 		  }
-
 	  }
-	  
 	  
 	  
 	  //tagName이 포함된 모든 사진 불러오는 기능
 	  //여러개의 태그를 동시에 검색하는 기능도 추가 예정
-	  @GetMapping("/pictures-and-tags")
-	  public String getPicturesByTagName() {
+	  @GetMapping("/pictures-and-tags/{tagName}")
+	  public List<Long> getPicturesByTagName(@PathVariable String tagName) {
+		  //picture가 저장된 디렉토리로 찾아가기 위한 pictureNumber들을 저장하기 위한 빈 배열 객체
+		  ArrayList<Long> pictureNumberList = new ArrayList<>();
 		  
-		  return null;
+		  //tagName으로 검색한 tag객체를 이용하여 PictureAndTags 객체로 이루어진 리스트 생성
+		  List<PicturesAndTags> picturesAndTagslist = repository.findByTagId(tagRepository.findByTagName(tagName));
+		  
+		  //PicturesAndTags 리스트 for문을 돌리며 각 객체의 picture 객체에 저장된 pictureNumber 추출 후 저장
+		  for(PicturesAndTags i : picturesAndTagslist) {
+			  pictureNumberList.add(i.getPictureId().getPictureNumber());
+		  }
+		  return pictureNumberList;
 	  }
+	  
+	  
 }

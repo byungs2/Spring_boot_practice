@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import repositories.TagsRepository;
 import tagsDTO.Tags;
+import usersDTO.Users;
 
 @RestController
 public class TagsController {
@@ -19,6 +21,7 @@ public class TagsController {
 	  TagsController(TagsRepository repository) {
 	    this.repository = repository;
 	  }
+	  
 	  //모든 태그 보기
 	  @GetMapping("/tags")
 	  public List<Tags> getAll(){
@@ -55,7 +58,12 @@ public class TagsController {
 	  
 	  
 	  //tagRegisterDate가 24시간 이내인 경우 트렌드에 출력
-	  
-	  
+	  @GetMapping("/tags/trend")
+	  public List<Tags> tagTrend(){
+		  Date currentDate = new Date();
+		  Date aDayAgo = new Date();
+		  aDayAgo.setTime(currentDate.getTime()-((long) 1000 * 60 * 60 * 24));
+		  return repository.findByRegisterDateBetween(aDayAgo, currentDate);
+	  }
 	  
 }

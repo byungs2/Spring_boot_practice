@@ -11,6 +11,9 @@ import javax.persistence.SequenceGenerator;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,6 +36,7 @@ public class Tags {
 	
 	//PicturesAndTags Entity와 양방향관계 매핑 변수명이 Pictures Entity와 같아서 고민 필요
 	@OneToMany(mappedBy = "tagId")
+	@JsonIgnore
 	List<PicturesAndTags> picturesAndTags;
 	
 	public Tags(long tagNumber, String tagName, Date registerDate, List<PicturesAndTags> picturesAndTags) {

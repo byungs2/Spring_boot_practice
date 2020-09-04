@@ -28,11 +28,7 @@ public class PicturesAndUsers {
 	@GeneratedValue(generator = "PicturesAndUsers_seq")
 	@SequenceGenerator(name = "PicturesAndUserss_seq", sequenceName = "PicturesAndUsers_seq", allocationSize = 1)
 	long pictureanduserNumber;
-	
-	long likeCounter;
-	
-	long reportCounter;
-	
+		
 	@ManyToOne
 	@JoinColumn(name = "Liked_PICTURES_ID")
 	Pictures likedPictureId;
@@ -40,13 +36,21 @@ public class PicturesAndUsers {
 	@ManyToOne
 	@JoinColumn(name = "Liked_Users_ID")
 	Users likedUserId;
-
-	public PicturesAndUsers(long pictureanduserNumber, long likeCounter,long reportCounter, Pictures likedPictureId, Users likedUserId) {
+	
+	@ManyToOne
+	@JoinColumn(name = "REPORTED_PICTURES_ID")
+	Pictures reportedPictureId;
+	
+	@ManyToOne
+	@JoinColumn(name = "REPORTED_Users_ID")
+	Users reportedUserId;
+	
+	public PicturesAndUsers(long pictureanduserNumber,Pictures likedPictureId, Users likedUserId, Pictures reportedPictureId, Users reportedUserId) {
 		this.pictureanduserNumber = pictureanduserNumber;
-		this.likeCounter = likeCounter;
-		this.reportCounter = reportCounter;
 		this.likedPictureId = likedPictureId;
 		this.likedUserId = likedUserId;
+		this.reportedPictureId = reportedPictureId;
+		this.reportedUserId = reportedUserId;
 	}
 	
 	

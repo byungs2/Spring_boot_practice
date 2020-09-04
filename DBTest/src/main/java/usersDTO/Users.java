@@ -62,7 +62,11 @@ public class Users {
 	@JsonIgnore
 	List<PicturesAndUsers> picturesAndUsers;
 	
-	public Users(long userNumber, String userName, String userEmail, String userPassword, Date userRegisterDate, List<Pictures> pictures, List<FavoritePictures> favoritePictures, Profiles profileId,List<PicturesAndUsers> picturesAndUsers) {
+	@OneToMany(mappedBy = "reportedUserId")
+	@JsonIgnore
+	List<PicturesAndUsers> reportedPicturesAndUsers;
+	
+	public Users(long userNumber, String userName, String userEmail, String userPassword, Date userRegisterDate, List<Pictures> pictures, List<FavoritePictures> favoritePictures, Profiles profileId,List<PicturesAndUsers> picturesAndUsers,List<PicturesAndUsers> reportedPicturesAndUsers) {
 		this.userNumber = userNumber;
 		this.userName = userName;
 		this.userEmail = userEmail;
@@ -72,6 +76,7 @@ public class Users {
 		this.favoritePictures = favoritePictures;
 		this.profileId = profileId;
 		this.picturesAndUsers = picturesAndUsers;
+		this.reportedPicturesAndUsers = reportedPicturesAndUsers;
 	}
 
 

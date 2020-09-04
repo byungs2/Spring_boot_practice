@@ -38,6 +38,10 @@ public class Pictures {
 	@SequenceGenerator(name = "Pictures_seq", sequenceName = "Pictures_seq", allocationSize = 1)
 	long pictureNumber;
 	
+	long likeCounter;
+	
+	long reportCounter;
+	
 	Date uploadDate;
 	
 	@ManyToOne
@@ -59,13 +63,20 @@ public class Pictures {
 	@JsonIgnore
 	List<PicturesAndUsers> picturesAndUsers;
 	
-	public Pictures(long pictureNumber,Date uploadDate, Users userId, List<PicturesAndTags> picturesAndTags, List<FavoritePictures> favoritePictures, List<PicturesAndUsers> picturesAndUsers) {
+	//PicturesAndUsers Entity와 양방향관계 Mapping
+	@OneToMany(mappedBy = "reportedPictureId")
+	@JsonIgnore
+	List<PicturesAndUsers> reportedPicturesAndUsers;
+	public Pictures(long pictureNumber,long likeCounter,long reportCounter,Date uploadDate, Users userId, List<PicturesAndTags> picturesAndTags, List<FavoritePictures> favoritePictures, List<PicturesAndUsers> picturesAndUsers,List<PicturesAndUsers> reportedPicturesAndUsers) {
 		this.pictureNumber = pictureNumber;
+		this.likeCounter= likeCounter;
+		this.reportCounter= reportCounter;
 		this.uploadDate = uploadDate;
 		this.userId = userId;
 		this.picturesAndTags = picturesAndTags;
 		this.favoritePictures = favoritePictures;
 		this.picturesAndUsers = picturesAndUsers;
+		this.reportedPicturesAndUsers = reportedPicturesAndUsers;
 	}
 	
 

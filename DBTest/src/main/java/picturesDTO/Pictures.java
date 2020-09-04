@@ -23,6 +23,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pictures.and.tagsDTO.PicturesAndTags;
+import pictures.and.usersDTO.PicturesAndUsers;
 import usersDTO.Users;
 
 @Builder
@@ -53,12 +54,18 @@ public class Pictures {
 	@JsonIgnore
 	List<FavoritePictures> favoritePictures;
 	
-	public Pictures(long pictureNumber, Date uploadDate, Users userId, List<PicturesAndTags> picturesAndTags, List<FavoritePictures> favoritePictures) {
+	//PicturesAndUsers Entity와 양방향관계 Mapping
+	@OneToMany(mappedBy = "likedPictureId")
+	@JsonIgnore
+	List<PicturesAndUsers> picturesAndUsers;
+	
+	public Pictures(long pictureNumber,Date uploadDate, Users userId, List<PicturesAndTags> picturesAndTags, List<FavoritePictures> favoritePictures, List<PicturesAndUsers> picturesAndUsers) {
 		this.pictureNumber = pictureNumber;
 		this.uploadDate = uploadDate;
 		this.userId = userId;
 		this.picturesAndTags = picturesAndTags;
 		this.favoritePictures = favoritePictures;
+		this.picturesAndUsers = picturesAndUsers;
 	}
 	
 

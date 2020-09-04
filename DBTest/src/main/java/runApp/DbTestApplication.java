@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -16,9 +17,10 @@ import interceptor.JwtInterceptor;
 
 
 @SpringBootApplication
+@EnableScheduling
 @EnableJpaRepositories("repositories")
-@EntityScan(basePackages = {"usersDTO","tagsDTO","profilesDTO","picturesDTO","pictures.and.tagsDTO","followersDTO","favorite.picturesDTO"})
-@ComponentScan(basePackages = {"interceptor","service","controller","repositories","usersDTO","tagsDTO","profilesDTO","picturesDTO","pictures.and.tagsDTO","followersDTO","favorite.picturesDTO"})
+@EntityScan(basePackages = {"usersDTO","tagsDTO","profilesDTO","picturesDTO","pictures.and.tagsDTO","followersDTO","favorite.picturesDTO","pictures.and.usersDTO"})
+@ComponentScan(basePackages = {"scheduler","interceptor","service","controller","repositories","usersDTO","tagsDTO","profilesDTO","picturesDTO","pictures.and.tagsDTO","followersDTO","favorite.picturesDTO","pictures.and.usersDTO"})
 public class DbTestApplication implements WebMvcConfigurer{
 	@Autowired
 	private JwtInterceptor jwtInterceptor;

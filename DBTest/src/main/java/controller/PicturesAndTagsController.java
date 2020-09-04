@@ -59,11 +59,12 @@ public class PicturesAndTagsController {
 		  for(int i = 1; i<tagNameList.length;i++) {
 			  Tags tag = tagRepository.findByTagName(tagNameList[i]);
 			  if(tag == null) {
-				  Tags newTag = Tags.builder().tagName(tagNameList[i]).registerDate(registerDate).build();
+				  Tags newTag = Tags.builder().tagName(tagNameList[i]).registerDate(registerDate).trendCounter(0).build();
 				  tag = newTag;
 				  tagRepository.save(newTag);
 			  }else {
 				  tag.setRegisterDate(registerDate);
+				  tag.setTrendCounter(tag.getTrendCounter() + 1);
 				  tagRepository.save(tag);
 			  }
 			  //Pictures Entity와 Tags Entity 관계 매칭
@@ -74,6 +75,7 @@ public class PicturesAndTagsController {
 	  
 	  //tagName이 포함된 모든 사진 불러오는 기능
 	  //여러개의 태그를 동시에 검색하는 기능도 추가 예정
+	  //좋아요 추가되면 좋아요 개수로 정렬하여 출력
 	  @GetMapping("/pictures-and-tags/{tagName}")
 	  public List<Long> getPicturesByTagName(@PathVariable String tagName) {
 		  //picture가 저장된 디렉토리로 찾아가기 위한 pictureNumber들을 저장하기 위한 빈 배열 객체
@@ -89,5 +91,5 @@ public class PicturesAndTagsController {
 		  return pictureNumberList;
 	  }
 	  
-	  
+	  //
 }

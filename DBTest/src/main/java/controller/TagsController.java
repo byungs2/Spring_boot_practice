@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,6 +59,8 @@ public class TagsController {
 	  
 	  
 	  //tagRegisterDate가 24시간 이내인 경우 트렌드에 출력
+	  //최근 가장 많이 사용된 태그를 추출해야한다
+	  //이는 TrendCounter를 이용해 프론트엔드에서 처리하자
 	  @GetMapping("/tags/trend")
 	  public List<Tags> tagTrend(){
 		  Date currentDate = new Date();
@@ -66,4 +69,23 @@ public class TagsController {
 		  return repository.findByRegisterDateBetween(aDayAgo, currentDate);
 	  }
 	  
+	  //수정기능과 삭제 기능 - 관리자 입장에서 처리
+	  @PutMapping("/tags")
+	  public void tagEdit(@RequestParam("invalidTagName") String invalidTagName, @RequestParam("tagName") String tagName) {
+		  Tags tag = repository.findByTagName(invalidTagName);
+		  tag.setTagName(tagName);
+		  repository.save(tag);
+	  }
+	  
+	  @DeleteMapping("/tags")
+	  public void tagDelete(@RequestParam("invalidTagName") String invalidTagName) {
+		  Tags tag = repository.findByTagName(invalidTagName);
+		  repository.delete(tag);
+	  }
+	  
+	  
+	  
+	  
+	  //태그 자동 완성 기능 및 정렬 방법, 비슷한 맥락의 단어 검색되게 하기, 인터셉터 --> 기본적 욕설 태그 차단 기능
+	  //태그 최대 개수 제한은 프론트엔드에서 #개수를 세서 제한/
 }

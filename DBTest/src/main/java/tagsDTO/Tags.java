@@ -12,7 +12,6 @@ import javax.persistence.SequenceGenerator;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -31,6 +30,8 @@ public class Tags {
 	@GeneratedValue(generator = "Tags_seq")
 	@SequenceGenerator(name = "Tags_seq", sequenceName = "Tags_seq", allocationSize = 1)
 	long tagNumber;
+	
+	long trendCounter;
 	String tagName;
 	Date registerDate;
 	
@@ -39,8 +40,9 @@ public class Tags {
 	@JsonIgnore
 	List<PicturesAndTags> picturesAndTags;
 	
-	public Tags(long tagNumber, String tagName, Date registerDate, List<PicturesAndTags> picturesAndTags) {
+	public Tags(long tagNumber, long trendCounter,String tagName, Date registerDate, List<PicturesAndTags> picturesAndTags) {
 		this.tagNumber = tagNumber;
+		this.trendCounter = trendCounter;
 		this.tagName = tagName;
 		this.registerDate = registerDate;
 		this.picturesAndTags = picturesAndTags;

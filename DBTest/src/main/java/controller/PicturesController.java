@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import picturesDTO.Pictures;
 import repositories.PicturesRepository;
 import repositories.UsersRepository;
+import usersDTO.Users;
 
 @RestController
 public class PicturesController {
@@ -27,6 +29,7 @@ public class PicturesController {
 	    this.repository = repository;
 	    this.userRepository = userRepository;
 	  }
+	  
 	  //모든 picture 검색
 	  @GetMapping("/pictures")
 	  public List<Pictures> getAll() {
@@ -58,5 +61,13 @@ public class PicturesController {
 		  return "redirect:/something.jsp";
 	  }
 	  
-	  //Picture 수정
+	  //userNumber로 Picture 검색
+	  @GetMapping("/pictures/{userNumber}")
+	  public List<Pictures> getUserPictures(@PathVariable long userNumber){
+		  Users user = userRepository.findById(userNumber).orElseThrow(()->null);
+		  return repository.findByUserId(user);
+	  }
+	  
+	  //사진 다운로드
+	  //프론트에서 사진 날짜별 정렬 후 렌더링
 }

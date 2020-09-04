@@ -107,7 +107,7 @@ public class UsersController {
 	@PostMapping("/users/verification/{userNumber}")
 	public boolean verifyUser(@RequestParam("userPassword") String userPassword, @PathVariable long userNumber) {
 		Users user = repository.findById(userNumber).orElseThrow(() -> null);
-		if(user.getUserPassword() == userPassword) {
+		if(user.getUserPassword().equals(userPassword)) {
 			return true;
 		}
 		return false;
@@ -127,5 +127,6 @@ public class UsersController {
 		repository.save(user);
 		return "redirect:/somewhere.jsp";
 	}
-
+	//관리자 기능 - 강퇴기능/정지 기능/닉네임 강제 변경/패스워드 재설정/휴면 계정 처리/
+	
 }
